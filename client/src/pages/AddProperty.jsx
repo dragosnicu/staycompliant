@@ -1,16 +1,28 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import { CITY_NAMES, getPreset } from '../data/cityPresets';
 
 const PLATFORMS = ['airbnb', 'vrbo', 'both', 'direct', 'other'];
-const CITIES = ['New York City', 'Austin', 'Nashville', 'Chicago', 'Denver', 'Portland', 'Los Angeles', 'Miami', 'Other'];
 
 export default function AddProperty() {
   const navigate = useNavigate();
-  const [form, setForm]   = useState({ name: '', address: '', city: '', state: '', platform: 'airbnb', night_cap: '' });
-  const [error, setError] = useState('');
+  const [form, setForm]     = useState({ name: '', address: '', city: '', state: '', platform: 'airbnb', night_cap: '' });
+  const [preset, setPreset] = useState(null);
+  const [error, setError]   = useState('');
   const [saving, setSaving] = useState(false);
-  const token   = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+
+  const handleCityChange = (city) => {
+    const p = getPreset(city);
+    setPreset(city && city !== 'Other' ? p : null);
+    setForm(f => ({
+      ...f,
+      city,
+      state: p.state || f.state,
+      night_cap: p.nightCap ? String(p.nightCap) : f.night_cap,
+    }));
+  };
 
   const handleSave = async () => {
     if (!form.name.trim()) return setError('Property name is required');
@@ -48,9 +60,9 @@ export default function AddProperty() {
           <div className="form-row">
             <div className="form-group">
               <label>City</label>
-              <select value={form.city} onChange={e => setForm({...form, city: e.target.value})}>
+              <select value={form.city} onChange={e => handleCityChange(e.target.value)}>
                 <option value="">Select city…</option>
-                {CITIES.map(c => <option key={c} value={c}>{c}</option>)}
+                {CITY_NAMES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div className="form-group">
@@ -59,6 +71,21 @@ export default function AddProperty() {
                 onChange={e => setForm({...form, state: e.target.value.toUpperCase()})} />
             </div>
           </div>
+
+          {/* City info box */}
+          {preset && preset.notes && (
+            <div style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 10, padding: '12px 16px', marginBottom: 18, marginTop: -8 }}>
+              <p style={{ color: '#fcd34d', fontSize: '0.82rem', marginBottom: preset.applicationUrl ? 6 : 0 }}>
+                📋 {preset.notes}
+              </p>
+              {preset.applicationUrl && (
+                <a href={preset.applicationUrl} target="_blank" rel="noreferrer"
+                  style={{ color: '#f59e0b', fontSize: '0.8rem', textDecoration: 'none' }}>
+                  Apply for permits in {form.city} →
+                </a>
+              )}
+            </div>
+          )}
 
           <div className="form-group">
             <label>Address</label>
@@ -80,10 +107,12 @@ export default function AddProperty() {
 
           <div className="form-group">
             <label>Annual night cap</label>
-            <input type="number" placeholder="e.g. 180 (leave blank if no cap)"
+            <input type="number" placeholder="Leave blank if your city has no cap"
               value={form.night_cap} onChange={e => setForm({...form, night_cap: e.target.value})} />
             <small style={{color:'#64748b', fontSize:'0.78rem', marginTop: 4, display:'block'}}>
-              Set this if your city limits how many nights you can rent per year (e.g. NYC = 180 nights)
+              {preset?.nightCap
+                ? `Auto-filled from ${form.city} preset (${preset.nightCap} nights/year)`
+                : 'Set this if your city limits how many nights you can rent per year'}
             </small>
           </div>
 
