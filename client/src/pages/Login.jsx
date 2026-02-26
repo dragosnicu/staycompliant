@@ -23,7 +23,7 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-side">
-        <div className="auth-side-logo">StayCompliant</div>
+        <div className="auth-side-logo">RentPermit</div>
         <p className="auth-side-tagline">
           Permit tracking and compliance dashboard<br />for short-term rental hosts.
         </p>
