@@ -8,6 +8,7 @@ import AddPermit      from './pages/AddPermit';
 import BookingLog     from './pages/BookingLog';
 import DocumentVault  from './pages/DocumentVault';
 import Billing        from './pages/Billing';
+import Onboarding     from './pages/Onboarding';
 
 function PrivateRoute({ children }) {
   return localStorage.getItem('token') ? children : <Navigate to="/login" />;
@@ -19,6 +20,7 @@ export default function App() {
       <Routes>
         <Route path="/login"    element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/onboarding" element={<PrivateRoute><Onboarding /></PrivateRoute>} />
         <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/billing"  element={<PrivateRoute><Billing /></PrivateRoute>} />
         <Route path="/properties/add" element={<PrivateRoute><AddProperty /></PrivateRoute>} />
