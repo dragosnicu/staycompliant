@@ -25,7 +25,7 @@ export default function Register() {
   return (
     <div className="auth-page">
       <div className="auth-side">
-        <div className="auth-side-logo">StayCompliant</div>
+        <div className="auth-side-logo">RentPermit</div>
         <p className="auth-side-tagline">
           Never miss a permit renewal.<br />Track your nights. Stay legal.
         </p>
