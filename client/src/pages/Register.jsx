@@ -19,7 +19,9 @@ export default function Register() {
     const data = await res.json();
     if (!res.ok) { setError(data.error || 'Registration failed'); setLoading(false); return; }
     localStorage.setItem('token', data.token);
-    navigate('/');
+    localStorage.setItem('email', data.user.email);
+    // New users always go through onboarding
+    navigate('/onboarding');
   };
 
   return (
@@ -33,7 +35,7 @@ export default function Register() {
       <div className="auth-form-panel">
         <div className="auth-form-box">
           <h2>Create your account</h2>
-          <p>Free to start — no credit card needed</p>
+          <p>Free 14-day trial — no credit card needed</p>
           {error && <p className="form-error">{error}</p>}
           <div className="form-group">
             <label>Name</label>
