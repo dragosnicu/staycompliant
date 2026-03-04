@@ -1,6 +1,7 @@
 const cron   = require('node-cron');
 const pool   = require('../db');
 const { Resend } = require('resend');
+const { syncAllProperties } = require('../services/icalSync');
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -9,9 +10,7 @@ async function sendReminders() {
     console.log('[Reminders] No RESEND_API_KEY set — skipping email send');
     return;
   }
-
   const THRESHOLDS = [60, 30, 7];
-
   for (const days of THRESHOLDS) {
     const { rows: permits } = await pool.query(
       `SELECT pm.*, p.name AS property_name, p.city, u.email, u.name AS user_name
@@ -26,7 +25,6 @@ async function sendReminders() {
          )`,
       [days]
     );
-
     for (const permit of permits) {
       try {
         await resend.emails.send({
@@ -53,12 +51,10 @@ async function sendReminders() {
             </div>
           `,
         });
-
         await pool.query(
           'INSERT INTO reminder_log (permit_id, days_before) VALUES ($1, $2) ON CONFLICT DO NOTHING',
           [permit.id, days]
         );
-
         console.log(`[Reminders] Sent ${days}-day reminder to ${permit.email} for permit ${permit.id}`);
       } catch (err) {
         console.error(`[Reminders] Failed for permit ${permit.id}:`, err.message);
@@ -67,10 +63,21 @@ async function sendReminders() {
   }
 }
 
-// Run every day at 8am
+// ── Daily permit reminders at 8am ────────────────────────────
 cron.schedule('0 8 * * *', () => {
   console.log('[Reminders] Running daily check…');
   sendReminders().catch(console.error);
 });
 
-console.log('[Reminders] Cron job scheduled (daily at 8am)');
+// ── iCal sync every 6 hours ───────────────────────────────────
+cron.schedule('0 */6 * * *', async () => {
+  console.log('[iCal] Starting scheduled sync of all properties…');
+  try {
+    const summary = await syncAllProperties();
+    console.log('[iCal] Scheduled sync complete:', summary);
+  } catch (err) {
+    console.error('[iCal] Scheduled sync error:', err.message);
+  }
+});
+
+console.log('[Reminders] Cron jobs scheduled (reminders: daily 8am | iCal sync: every 6h)');
