@@ -8,6 +8,7 @@ const permitsRouter    = require('./routes/permits');
 const bookingsRouter   = require('./routes/bookings');
 const documentsRouter  = require('./routes/documents');
 const billingRouter    = require('./routes/billing');
+const icalRouter       = require('./routes/ical');
 
 require('./cron/reminders');
 
@@ -27,6 +28,7 @@ app.use('/api/permits',    permitsRouter);
 app.use('/api/bookings',   bookingsRouter);
 app.use('/api/documents',  documentsRouter);
 app.use('/api/billing',    billingRouter);
+app.use('/api/ical',       icalRouter);
 
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
