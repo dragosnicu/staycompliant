@@ -1,0 +1,255 @@
+/* ============================================================
+   iCal Settings CSS — append to your master stylesheet
+   ============================================================ */
+
+/* ── iCal Settings Panel ─────────────────────────────────── */
+.ical-settings {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.ical-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ical-header-text h3 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+  color: #f1f5f9;
+}
+
+.ical-header-text p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #64748b;
+  max-width: 440px;
+}
+
+/* Sync status badge */
+.sync-status-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sync-status-badge.ok    { background: rgba(34,197,94,0.1);  color: #22c55e; }
+.sync-status-badge.error { background: rgba(239,68,68,0.1);  color: #ef4444; }
+.sync-status-badge.never { background: rgba(148,163,184,0.1); color: #64748b; }
+
+.sync-time {
+  font-size: 0.72rem;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* Error banner */
+.ical-error {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+}
+
+/* Platform blocks */
+.ical-platform-block {
+  margin-bottom: 20px;
+}
+
+.ical-platform-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.platform-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.platform-dot.airbnb { background: #FF5A5F; }
+.platform-dot.vrbo   { background: #3D6BE6; }
+
+.ical-help-link {
+  font-size: 0.75rem;
+  color: #f59e0b;
+  text-decoration: none;
+  margin-left: 4px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.ical-help-link:hover { text-decoration: underline; }
+
+.ical-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ical-url-input {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  font-family: monospace;
+  transition: border-color 0.15s;
+}
+.ical-url-input:focus {
+  outline: none;
+  border-color: #f59e0b;
+}
+.ical-url-input::placeholder { color: #475569; }
+
+.disconnect-btn {
+  color: #ef4444 !important;
+  border-color: rgba(239,68,68,0.2) !important;
+  flex-shrink: 0;
+}
+.disconnect-btn:hover {
+  background: rgba(239,68,68,0.1) !important;
+}
+
+/* Actions row */
+.ical-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+.spin {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Auto-sync note */
+.ical-auto-note {
+  font-size: 0.78rem;
+  color: #475569;
+  margin: 0 0 20px;
+}
+
+/* Sync results */
+.sync-results {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.sync-results-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.sync-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sync-result-row:last-child { border-bottom: none; }
+.sync-result-row.error .sync-error-msg { color: #ef4444; font-size: 0.8rem; }
+
+.sync-platform {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #cbd5e1;
+}
+
+.sync-counts {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.new-badge {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.upd-badge {
+  background: rgba(245,158,11,0.15);
+  color: #f59e0b;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.no-change {
+  color: #475569;
+  font-size: 0.8rem;
+}
+
+/* Info box */
+.ical-info-box {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 8px;
+}
+
+.ical-info-box strong {
+  display: block;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.ical-info-box ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.ical-info-box li {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .ical-header { flex-direction: column; }
+  .sync-status-badge { align-items: flex-start; }
+  .ical-actions { flex-direction: column; }
+}
