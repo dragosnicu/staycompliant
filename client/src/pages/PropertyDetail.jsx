@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import NightCapWidget from '../components/NightCapWidget';
+import IcalSettings from '../components/IcalSettings';
+import '../ical.css';
 
 function countdown(days) {
   if (days === null || days === undefined) return null;
@@ -77,8 +79,8 @@ export default function PropertyDetail() {
         {/* Action bar */}
         <div className="action-bar">
           <Link to={`/properties/${id}/permits/add`} className="btn-primary">+ Add Permit</Link>
-          <Link to={`/properties/${id}/bookings`}    className="btn-secondary">🌙 Night Log</Link>
-          <Link to={`/properties/${id}/documents`}   className="btn-secondary">📁 Documents</Link>
+          <Link to={`/properties/${id}/bookings`}    className="btn-secondary">Night Log</Link>
+          <Link to={`/properties/${id}/documents`}   className="btn-secondary">Documents</Link>
         </div>
 
         {/* Night cap */}
@@ -87,6 +89,9 @@ export default function PropertyDetail() {
             <NightCapWidget propertyId={id} />
           </div>
         )}
+
+        {/* iCal calendar sync */}
+        <IcalSettings propertyId={id} />
 
         {/* Permits */}
         <p className="section-title">Permits & Licenses</p>
